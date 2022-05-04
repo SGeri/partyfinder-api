@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { TextInput, Button, Alert, Center, Textarea } from "@mantine/core";
-import { useId } from "@mantine/hooks";
+import React from "react";
+import { TextInput, Button, Textarea } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 export default function EventForm(props) {
@@ -24,7 +23,6 @@ export default function EventForm(props) {
         value.length < 3 ? "Túl rövid rendezvény!" : null,
     },
   });
-  const [error, setError] = useState("");
 
   return (
     <form
@@ -74,12 +72,6 @@ export default function EventForm(props) {
         >
           Kész
         </Button>
-      )}
-
-      {error && (
-        <Alert color="red" variant="outline" mt={10}>
-          <Center>{error}</Center>
-        </Alert>
       )}
     </form>
   );
