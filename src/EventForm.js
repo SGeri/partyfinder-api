@@ -9,18 +9,21 @@ export default function EventForm(props) {
   const form = useForm({
     initialValues: {
       name: props.data?.name,
-      location: props.data?.location,
+      organizer: props.data?.organizer,
+      location: props.data?.location, // { gps: { lat: 0, lng: 0 }, club: "" },
       date: props.data?.date,
       description: props.data?.description,
+      ticketLink: props.data?.ticketLink,
     },
 
     validate: {
       name: (value) => (value.length < 3 ? "Túl rövid név!" : null),
-      location: (value) =>
-        value.length < 3 ? "Túl rövid helyszín név!" : null,
+      organizer: (value) => (value.length < 3 ? "Túl rövid szervező!" : null),
+      location: (value) => (value.length < 3 ? "Túl rövid helyszín!" : null),
       date: (value) => (value.length < 3 ? "Túl rövid időpont!" : null),
       description: (value) =>
         value.length < 3 ? "Túl rövid rendezvény!" : null,
+      ticketLink: (value) => (value.length < 3 ? "Túl rövid jegycím!" : null),
     },
   });
 
@@ -32,10 +35,17 @@ export default function EventForm(props) {
     >
       <TextInput
         label="Rendezvény neve"
-        placeholder="Az appban megjelenő rövid név"
+        placeholder="Az applikációban megjelenő rövid név"
         mb={5}
         disabled={props.readOnly}
         {...form.getInputProps("name")}
+      />
+      <TextInput
+        label="Szervező neve"
+        placeholder="Az szervezőcég megjelenő neve"
+        mb={5}
+        disabled={props.readOnly}
+        {...form.getInputProps("organizer")}
       />
       <TextInput
         label="Rendezvény helyszíne (Google támogatott)"
@@ -60,6 +70,13 @@ export default function EventForm(props) {
         maxRows={5}
         disabled={props.readOnly}
         {...form.getInputProps("description")}
+      />
+      <TextInput
+        label="Jegyvásárlási webcím"
+        placeholder="A jegyvásárláskori átirányítás weboldal teljes címe"
+        mb={5}
+        disabled={props.readOnly}
+        {...form.getInputProps("date")}
       />
 
       {!props.readOnly && (
