@@ -22,7 +22,7 @@ export function login(data, callback) {
 export function getEvents(callback) {
   console.log(`Bearer ${localStorage.getItem("auth_token")}`);
   axios
-    .get(API_BASEURL + "/api/v1/events", {
+    .get(API_BASEURL + "/api/v1/get_events", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
       },
@@ -62,6 +62,14 @@ export function removeEvent(id, callback) {
       }
     })
     .catch(function (error) {
-      callback({ success: false, error: error });
+      if (error.status === 401) {
+        callback({ success: false, error: "Hiányzó hitelesítési token." });
+        return;
+      }
+
+      callback({
+        success: false,
+        error: error.message || JSON.stringify(error) || error,
+      });
     });
 }
