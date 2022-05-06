@@ -6,8 +6,11 @@ export default function handler(req, res) {
     return;
   }
 
-  if (email == "email" && password == "password") {
-    res.json({ token: "123" });
+  if (
+    email == process.env.ADMIN_EMAIL &&
+    password == process.env.ADMIN_PASSWORD
+  ) {
+    res.json({ token: process.env.ADMIN_TOKEN });
   } else {
     res.json({ error: "Helytelen bejelentkezési adatok!" });
   }
