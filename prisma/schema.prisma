@@ -1,0 +1,19 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Party {
+  id                  Int       @id @default(autoincrement())
+  name                String    @db.VarChar(255)
+  organizer           String    @db.VarChar(255)
+  locationDisplay     String    @db.VarChar(255)
+  locationCoords      String    @db.VarChar(255)
+  date                DateTime  @db.DateTime
+  description         String    @db.VarChar(255)
+  link                String    @db.VarChar(255)
+}

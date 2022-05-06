@@ -76,7 +76,7 @@ export default function EventForm(props) {
         placeholder="A jegyvásárláskori átirányítás weboldal teljes címe"
         mb={5}
         disabled={props.readOnly}
-        {...form.getInputProps("date")}
+        {...form.getInputProps("ticketLink")}
       />
 
       {!props.readOnly && (
