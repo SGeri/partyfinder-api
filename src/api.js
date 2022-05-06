@@ -28,6 +28,7 @@ export function getEvents(callback) {
       },
     })
     .then(function (response) {
+      console.log(response.data);
       callback({ success: true, events: response.data.events });
     })
     .catch(function (error) {

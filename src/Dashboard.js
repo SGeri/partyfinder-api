@@ -141,12 +141,15 @@ export default function Dashboard(props) {
   useEffect(() => {
     const newRows = events.map(
       (event, index) => {
+        const date = new Date(event.date);
+        const formattedDate = date.toLocaleDateString("hu-HU");
+
         return (
           <tr key={index}>
             <td style={{ cursor: "pointer" }} onClick={() => viewEvent(event)}>
               {event.name}
             </td>
-            <td>{event.date}</td>
+            <td>{formattedDate}</td>
             <td>
               <Group spacing="sm">
                 <ActionIcon

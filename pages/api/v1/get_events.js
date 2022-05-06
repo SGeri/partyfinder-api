@@ -1,6 +1,20 @@
-export default function handler(req, res) {
-  res.json({
-    events: [
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+export default async function handler(req, res) {
+  try {
+    const events = await prisma.party.findMany();
+
+    res.json({ success: false, events });
+  } catch (e) {
+    res.json({ success: true, error: "Hiba történt: " + e });
+    return;
+  }
+}
+
+/* mockdata:
+events: [
       {
         id: 1,
         name: "Offline Party 2021",
@@ -22,6 +36,5 @@ export default function handler(req, res) {
         date: "08.21 21:00",
         description: "Az Offline Party sorozat 3. része.",
       },
-    ],
-  });
-}
+], 
+*/
