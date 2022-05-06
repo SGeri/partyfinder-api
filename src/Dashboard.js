@@ -9,6 +9,7 @@ import {
   Center,
   Table,
   ActionIcon,
+  Alert,
 } from "@mantine/core";
 import { useModals } from "@mantine/modals";
 import { showNotification } from "@mantine/notifications";
@@ -25,6 +26,8 @@ export default function Dashboard(props) {
 
   const [events, setEvents] = useState([]);
   const [rows, setRows] = useState([]);
+
+  const [error, setError] = useState("");
 
   const logout = () => {
     localStorage.removeItem("auth_token");
@@ -197,6 +200,12 @@ export default function Dashboard(props) {
             <p style={{ color: "#2C2E33" }}>Hozzáadás</p>
           </Button>
         </Center>
+
+        {error && (
+          <Alert color="red" variant="outline" mt={10}>
+            <Center>{error}</Center>
+          </Alert>
+        )}
 
         <Table
           horizontalSpacing="xl"

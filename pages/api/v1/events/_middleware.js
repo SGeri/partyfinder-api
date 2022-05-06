@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 export async function middleware(req) {
-  const token = req.headers?.authorization?.split(" ")[1];
+  const token = req.headers.get("authorization").split(" ")[1];
 
   if (token !== process.env.ADMIN_TOKEN) {
     return new Response(

@@ -20,6 +20,7 @@ export function login(data, callback) {
 }
 
 export function getEvents(callback) {
+  console.log(`Bearer ${localStorage.getItem("auth_token")}`);
   axios
     .get(API_BASEURL + "/api/v1/events", {
       headers: {
@@ -30,7 +31,15 @@ export function getEvents(callback) {
       callback({ success: true, events: response.data.events });
     })
     .catch(function (error) {
-      callback({ success: false, error: error });
+      if (error.status === 401) {
+        callback({ success: false, error: "Hiányzó hitelesítési token." });
+        return;
+      }
+
+      callback({
+        success: false,
+        error: error.message || JSON.stringify(error) || error,
+      });
     });
 }
 
