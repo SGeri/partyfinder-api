@@ -10,16 +10,20 @@ export default function EventForm(props) {
     initialValues: {
       name: props.data?.name,
       organizer: props.data?.organizer,
-      location: props.data?.location, // { gps: { lat: 0, lng: 0 }, club: "" },
+      locationDisplay: props.data?.locationDisplay,
+      locationCoords: props.data?.locationCoords,
       date: props.data?.date,
       description: props.data?.description,
-      ticketLink: props.data?.ticketLink,
+      ticketLink: props.data?.link,
     },
 
     validate: {
       name: (value) => (value.length < 3 ? "Túl rövid név!" : null),
       organizer: (value) => (value.length < 3 ? "Túl rövid szervező!" : null),
-      location: (value) => (value.length < 3 ? "Túl rövid helyszín!" : null),
+      locationDisplay: (value) =>
+        value.length < 3 ? "Túl rövid helyszín!" : null,
+      locationCoords: (value) =>
+        value.length < 3 ? "Túl rövid helyszín!" : null,
       date: (value) => (value.length < 3 ? "Túl rövid időpont!" : null),
       description: (value) =>
         value.length < 3 ? "Túl rövid rendezvény!" : null,
@@ -48,14 +52,21 @@ export default function EventForm(props) {
         {...form.getInputProps("organizer")}
       />
       <TextInput
-        label="Rendezvény helyszíne (Google támogatott)"
+        label="Rendezvény helyszíne (Szórakozóhely neve)"
         placeholder="Az appban megjelenő helyszín"
         mb={5}
         disabled={props.readOnly}
-        {...form.getInputProps("location")}
+        {...form.getInputProps("locationDisplay")}
       />
       <TextInput
-        label="Rendezvény időpontja (HH.NN ÓÓ:PP)"
+        label="Rendezvény helyszíne (Koordináták; X, Y)"
+        placeholder="A térképen megjelenő helyszín koordinátái"
+        mb={5}
+        disabled={props.readOnly}
+        {...form.getInputProps("locationCoords")}
+      />
+      <TextInput
+        label="Rendezvény időpontja (ÉÉÉÉ-HH-NN/T/ÓÓ:PP)"
         placeholder="Az appban megjelenő dátum és időpont"
         mb={5}
         disabled={props.readOnly}
