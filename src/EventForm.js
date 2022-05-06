@@ -3,9 +3,6 @@ import { TextInput, Button, Textarea } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 export default function EventForm(props) {
-  // instead of random ids, use fetch to get the ids
-  const tempId = Math.floor(Math.random() * (10000 - 200 + 1)) + 200;
-
   const form = useForm({
     initialValues: {
       name: props.data?.name,
@@ -14,7 +11,7 @@ export default function EventForm(props) {
       locationCoords: props.data?.locationCoords,
       date: props.data?.date,
       description: props.data?.description,
-      ticketLink: props.data?.link,
+      link: props.data?.link,
     },
 
     validate: {
@@ -27,14 +24,14 @@ export default function EventForm(props) {
       date: (value) => (value.length < 3 ? "Túl rövid időpont!" : null),
       description: (value) =>
         value.length < 3 ? "Túl rövid rendezvény!" : null,
-      ticketLink: (value) => (value.length < 3 ? "Túl rövid jegycím!" : null),
+      link: (value) => (value.length < 3 ? "Túl rövid jegycím!" : null),
     },
   });
 
   return (
     <form
       onSubmit={form.onSubmit((values) =>
-        props.onSubmit({ id: props.data?.id || tempId, ...values })
+        props.onSubmit({ id: props.data?.id, ...values })
       )}
     >
       <TextInput
@@ -87,7 +84,7 @@ export default function EventForm(props) {
         placeholder="A jegyvásárláskori átirányítás weboldal teljes címe"
         mb={5}
         disabled={props.readOnly}
-        {...form.getInputProps("ticketLink")}
+        {...form.getInputProps("link")}
       />
 
       {!props.readOnly && (

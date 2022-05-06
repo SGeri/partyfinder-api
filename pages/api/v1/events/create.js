@@ -13,6 +13,8 @@ export default async function handler(req, res) {
     link,
   } = req.body;
 
+  console.log(req.body);
+
   if (
     !name ||
     !organizer ||
@@ -27,19 +29,19 @@ export default async function handler(req, res) {
   }
 
   try {
-    await prisma.party.create({
+    const event = await prisma.party.create({
       data: {
         name,
         organizer,
         locationDisplay,
         locationCoords,
-        date,
+        date: new Date(date),
         description,
         link,
       },
     });
 
-    res.json({ success: true });
+    res.json({ success: true, id: event.id });
   } catch (e) {
     res.json({ error: "Hiba történt: " + e });
     return;

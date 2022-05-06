@@ -14,7 +14,12 @@ import {
 import { useModals } from "@mantine/modals";
 import { showNotification } from "@mantine/notifications";
 
-import { getEvents, removeEvent as removeEventAPI } from "./api";
+import {
+  getEvents,
+  createEvent as createEventAPI,
+  updateEvent as updateEventAPI,
+  removeEvent as removeEventAPI,
+} from "./api";
 
 import { PlusCircle, Edit2, Trash2 } from "react-feather";
 
@@ -37,7 +42,22 @@ export default function Dashboard(props) {
   const createEvent = () => {
     modals.openModal({
       title: "Esemény hozzáadása",
-      children: <EventForm onSubmit={(data) => addEventEntry(data)} />,
+      children: (
+        <EventForm
+          onSubmit={(data) => {
+            createEventAPI(data, (res) => {
+              if (!res.success) {
+                showNotification({
+                  type: "error",
+                  message: res.error,
+                });
+              } else {
+                addEventEntry(res.id, data);
+              }
+            });
+          }}
+        />
+      ),
     });
   };
 
@@ -47,7 +67,18 @@ export default function Dashboard(props) {
       children: (
         <EventForm
           data={events.find((e) => e.id === id)}
-          onSubmit={(data) => updateEventEntry(data)}
+          onSubmit={(data) => {
+            updateEventAPI({ id, ...data }, (res) => {
+              if (!res.success) {
+                showNotification({
+                  type: "error",
+                  message: res.error,
+                });
+              } else {
+                updateEventEntry(data);
+              }
+            });
+          }}
         />
       ),
     });
@@ -88,8 +119,8 @@ export default function Dashboard(props) {
     });
   };
 
-  const addEventEntry = (data) => {
-    const newEvents = [...events, data];
+  const addEventEntry = (id, data) => {
+    const newEvents = [...events, { id, ...data }];
     setEvents(newEvents);
 
     modals.closeAll();

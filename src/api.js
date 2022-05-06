@@ -46,20 +46,16 @@ export function getEvents(callback) {
 
 export function createEvent(data, callback) {
   axios
-    .post(
-      API_BASEURL + "/api/v1/events/create",
-      { data },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
-        },
-      }
-    )
+    .post(API_BASEURL + "/api/v1/events/create", data, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+      },
+    })
     .then(function (response) {
       if (!response.data.success) {
         callback({ success: false, error: response.data.error });
       } else {
-        callback({ success: true });
+        callback({ success: true, id: response.data.id });
       }
     })
     .catch(function (error) {
@@ -75,11 +71,11 @@ export function createEvent(data, callback) {
     });
 }
 
-export function editEvent(data, callback) {
+export function updateEvent(data, callback) {
   axios
     .post(
       API_BASEURL + "/api/v1/events/edit",
-      { data },
+      { ...data },
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
